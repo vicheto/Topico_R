@@ -3,7 +3,7 @@
 
 
 library(readxl)
-file.choose()
+#file.choose()
 setwd("E:\\Documentos\\R\\Topico_R\\mica\\data")
 Mica <- read_excel("MICA.xlsx", col_types = c("text", "text", "text", "text", "text",#1-5
                                               "numeric", "numeric", "numeric", "numeric", #6-9
