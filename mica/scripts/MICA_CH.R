@@ -355,10 +355,10 @@ P_PPM[is.na(P_PPM)]<-0
 #H2OM_WT[is.na(H2OM_WT)]<-0
 
 #C Carbono
-CO2_WT<-as.numeric(Mica$"CO2(WT%)")
-CO2_WT[is.na(CO2_WT)]<-0
-CH4_WT<-as.numeric(Mica$"CH4(WT%)")
-CH4_WT[is.na(CH4_WT)]<-0
+#CO2_WT<-as.numeric(Mica$"CO2(WT%)")
+#CO2_WT[is.na(CO2_WT)]<-0
+#CH4_WT<-as.numeric(Mica$"CH4(WT%)")
+#CH4_WT[is.na(CH4_WT)]<-0
 
 
 #F Flúor
@@ -557,7 +557,7 @@ NI<-10000*NIO_WT*0.785797292+NI_PPM #Ni en ppm
 K<-10000*0.830147777*K2O_WT+10000*K_WT+K_PPM #K en ppm
 SODIO<-10000*0.741857476*SODIO2O_WT+10000*SODIO_WT+SODIO_PPM #Na en ppm
 P<-10000*0.43642066*P2O5_WT+P_PPM #P en ppm
-C<-10000*0.27291153*CO2_WT+10000*0.748689402392425*CH4_WT #C en ppm
+#C<-10000*0.27291153*CO2_WT+10000*0.748689402392425*CH4_WT #C en ppm
 F<-10000*0.703693963649294*F2O_WT+10000*F_WT+F_PPM #F en ppm 
 CL<-10000*CL_WT+CL_PPM+10000*0.815898666826227*CL2O_WT #Cl en ppm
 #SE<-SE_PPM #Se en ppm
@@ -633,7 +633,7 @@ MicaA$Ni<-NI
 MicaA$K<-K
 MicaA$Sodio<-SODIO
 MicaA$P<-P
-MicaA$C<-C
+#MicaA$C<-C
 MicaA$F<-F
 MicaA$Cl<-CL
 #MicaA$Se<-SE
@@ -677,24 +677,24 @@ MicaA$Yb<-YB
 #G R A F I C O S 
 library("corrplot")
 
-cor.mat <- round(cor(MicaA[,c(6:50)]),2)
+cor.mat <- round(cor(MicaA[,c(6:49)]),2)
 corrplot(cor.mat, type="upper", order="original", tl.col="black", tl.srt=45)
 
-Mica.pca <- prcomp(MicaA[,c(6:50)], center = TRUE, scale. = TRUE)
+Mica.pca <- prcomp(MicaA[,c(6:49)], center = TRUE, scale. = TRUE)
 plot(Mica.pca, choix = "varcor")
 Mica.pca
 summary(Mica.pca)
 
 library("FactoMineR")
 library("factoextra")
-Mica.pca <- PCA(MicaA[,c(6:50)])
+Mica.pca <- PCA(MicaA[,c(6:49)])
 
 
 #CLUSTERING, hay que imrovisar codigo por consumo desmesurado de memoria RAM
 #var <- get_pca_ind(Relaves.pca)
-plot(hclust(dist(as.matrix(MicaA[,c(6:50)]))))
+plot(hclust(dist(as.matrix(MicaA[,c(6:49)]))))
 # Compute PCA with ncp = 6
-res.pca <- PCA(MicaA[,c(6:50)], ncp = 6, graph = FALSE)
+res.pca <- PCA(MicaA[,c(6:49)], ncp = 6, graph = FALSE)
 # Compute hierarchical clustering on principal components
 res.hcpc <- HCPC(res.pca, graph = FALSE)
 fviz_dend(res.hcpc, 
@@ -735,9 +735,9 @@ g <- g + theme_minimal()
 print(g)
 
 #var <- get_pca_ind(Andesite_CHP.pca)
-plot(hclust(dist(as.matrix(MicaA[,c(6:71)]))))
+plot(hclust(dist(as.matrix(MicaA[,c(6:49)]))))
 # Compute PCA with ncp = 6
-res.pca <- PCA(MicaA[,c(6:50)], ncp = 6, graph = FALSE)
+res.pca <- PCA(MicaA[,c(6:49)], ncp = 6, graph = FALSE)
 # Compute hierarchical clustering on principal components
 res.hcpc <- HCPC(res.pca, graph = FALSE)
 fviz_dend(res.hcpc, 
