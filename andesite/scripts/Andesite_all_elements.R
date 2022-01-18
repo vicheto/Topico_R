@@ -29,9 +29,6 @@ Andesite <- read_excel("ANDESITE.xlsx", col_types = c("text", "text", "text", "t
 #Andesite1 <- Andesite[c("TECTONIC SETTING","LOCATION","ROCK NAME","GEOL.","AGE","ROCK TEXTURE","ALTERATION","MINERAL","CR(PPM)", "CO(PPM)", "NI(PPM)", "CU(PPM)", "ZN(PPM)", "AS(PPM)", "SE(PPM)", "MO(PPM)", "CD(PPM)", "SB(PPM)", "HG(PPM)", "TL(PPM)", "PB(PPM)", "BI(PPM)")]
 Andesite1 <- Andesite[c("TECTONIC SETTING","LOCATION","ROCK NAME","GEOL.","AGE","ROCK TEXTURE","ALTERATION","MINERAL")]
 
-#####Cr, Co, Ni, Cu, Zn, As, Se, Mo, Cd, Sb, Hg, Tl, Pb, Bi######
-
-
 
 #Si Silicio
 SIO2_WT<-as.numeric(Andesite$"SIO2(WT%)")
@@ -707,30 +704,54 @@ Andesite.pca <- PCA(Andesite1[,c(9:74)])
 library("factoextra")
  
 
-#Clustering <- NEED TO FIX IT
+#CLUSTERING, hay que imrovisar codigo por consumo desmesurado de memoria RAM
+#var <- get_pca_ind(Relaves.pca)
+plot(hclust(dist(as.matrix(Andesite1[,c(9:74)]))))
+# Compute PCA with ncp = 6
+res.pca <- PCA(Andesite1[,c(9:74)], ncp = 6, graph = FALSE)
+# Compute hierarchical clustering on principal components
+res.hcpc <- HCPC(res.pca, graph = FALSE)
+fviz_dend(res.hcpc, 
+          show_labels = FALSE,
+          lwd = 2.4,
+          cex = 0.7,                     # Label size
+          palette = "aaas",               # Color palette see ?ggpubr::ggpar
+          rect = TRUE, rect_fill = TRUE, # Add rectangle around groups
+          rect_border = "aaas",           # Rectangle color
+          labels_track_height = 0.3      # Augment the room for labels
+)
 
-g <- my_ggbiplot02(Andesite_CHP.pca, ellipse=TRUE, labels = rownames(Andesite_CHP1)) #Need to see the numbers of samples
+fviz_cluster(res.hcpc,
+             repel = TRUE,            # Avoid label overlapping
+             show.clust.cent = TRUE, # Show cluster centers
+             palette = "aaas",         # Color palette see ?ggpubr::ggpar
+             ggtheme = theme_minimal(),
+             main = "Factor map"
+)
 
-g <- my_ggbiplot02(Andesite_CHP.pca, choices=c(1,2), ellipse=TRUE, obs.scale = 1, var.scale = 1, groups=Andesite_CHP1$Horizont, varname.size = 5,
+
+g <- my_ggbiplot02(Andesite.pca, ellipse=TRUE, labels = rownames(Andesite1)) #Need to see the numbers of samples
+
+g <- my_ggbiplot02(Andesite.pca, choices=c(1,2), ellipse=TRUE, obs.scale = 1, var.scale = 1, groups=Andesite1$Horizont, varname.size = 5,
                    varname.adjust = 2, color = "#0B0B3B", linetype = "solid", size = 1.1) #1.1  
-g <- g + geom_point(aes(shape=factor(Andesite_CHP1$Tailings), colour=factor(Andesite_CHP1$Horizont)), size=2.5) #2.5
+g <- g + geom_point(aes(shape=factor(Andesite1$Tailings), colour=factor(Andesite1$Horizont)), size=2.5) #2.5
 g <- g + scale_colour_manual(name="Horizont", values= c("forest green", "deepskyblue", "goldenrod4", "pink", "chocolate", "darkmagenta", "dark blue", "red3", "lightseagreen", "lightpink4", "gold", "darkorange2"))
 g <- g + ylim(-5,5) + xlim(-5,5)
 g <- g + theme_minimal()
 print(g)
 
-g <- my_ggbiplot02(Andesite_CHP.pca, choices=c(1,2), ellipse=TRUE, obs.scale = 1, var.scale = 1, groups=Andesite_CHP1$Horizont, varname.size = 0,
+g <- my_ggbiplot02(Andesite.pca, choices=c(1,2), ellipse=TRUE, obs.scale = 1, var.scale = 1, groups=Andesite1$Horizont, varname.size = 0,
                    varname.adjust = 2, color = "#0B0B3B", linetype = "solid", size = 4.4) #1.1  
-g <- g + geom_point(aes(shape=factor(Andesite_CHP1$Tailings), colour=factor(Andesite_CHP1$Horizont)), size=16) #2.5
+g <- g + geom_point(aes(shape=factor(Andesite1$Tailings), colour=factor(Andesite1$Horizont)), size=16) #2.5
 g <- g + scale_colour_manual(name="Horizont", values= c("forest green", "deepskyblue", "goldenrod4", "pink", "chocolate", "darkmagenta", "dark blue", "red3", "lightseagreen", "lightpink4", "gold", "darkorange2"))
 #g <- g + ylim(-5,5) + xlim(-5,5)
 g <- g + theme_minimal()
 print(g)
 
 #var <- get_pca_ind(Andesite_CHP.pca)
-plot(hclust(dist(as.matrix(Andesite_CHP1[,c(9:19)]))))
+plot(hclust(dist(as.matrix(Andesite1[,c(:74)]))))
 # Compute PCA with ncp = 6
-res.pca <- PCA(Andesite_CHP1[,c(9:19)], ncp = 6, graph = FALSE)
+res.pca <- PCA(Andesite1[,c(9:74)], ncp = 6, graph = FALSE)
 # Compute hierarchical clustering on principal components
 res.hcpc <- HCPC(res.pca, graph = FALSE)
 fviz_dend(res.hcpc, 
@@ -762,3 +783,4 @@ res.hcpc$call$t$intra
 res.hcpc$call$t$inert.gain #this one
 res.hcpc$call$t$quot
 res.hcpc$call$t$i
+
