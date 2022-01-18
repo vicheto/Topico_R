@@ -690,6 +690,7 @@ library("factoextra")
 Mica.pca <- PCA(MicaA[,c(6:49)])
 
 
+
 #CLUSTERING, hay que imrovisar codigo por consumo desmesurado de memoria RAM
 
 #var <- get_pca_ind(Andesite_CHP.pca)
@@ -732,4 +733,12 @@ res.hcpc$call$t$quot
 res.hcpc$call$t$i
 
 #Identificar
-unoceroochocinco <- data.frame(t(Andesite_CHP1[1048,]))
+azul1 <- data.frame(t(MicaA[1086,])) #1086
+azul2 <- data.frame(t(MicaA[1085,])) #1085
+
+morado1 <- data.frame(t(MicaA[935,])) #935
+morado2 <- data.frame(t(MicaA[1079,])) #1079
+
+verde1 <- data.frame(t(MicaA[1059,])) #1059
+verde2 <- data.frame(t(MicaA[1071,])) #1071
+

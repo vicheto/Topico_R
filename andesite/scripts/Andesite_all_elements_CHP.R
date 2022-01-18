@@ -674,7 +674,8 @@ hist(Y_PPM)
 #qqnorm(log10(Y_PPM))
 SRY <- (log10(SR_PPM)) / (log10(Y_PPM))
 log_Y <- log10(Y_PPM)
-plot(log_Y, SRY, main="Relationship between Sr and Y", xlab="Y (ppm)", ylab="Sr/Y")
+plot(log_Y, SRY, main="Relationship between Sr and Y", xlab="Y (ppm)", ylab="Sr/Y", labels=rownames(Y_PPM))
+#text(labels=rownames(Y_PPM),data=cars, cex=0.9, font=2)
 
 #####
 #Correlacion de Pearson
